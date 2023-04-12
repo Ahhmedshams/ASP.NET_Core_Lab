@@ -1,0 +1,45 @@
+﻿@model Student
+@{
+    SelectList depts;
+    if (Model != null)
+    {
+        depts = new SelectList(ViewBag.Depts, "Id", "Name", Model.DepartmentId);
+    }
+    else
+    {
+        depts = new SelectList(ViewBag.Depts, "Id", "Name");
+    }
+}
+
+<div class="form-group">
+    <label asp-for="Name"></label>
+    <input class="form-control" placeholder="Name" asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Age"></label>
+    <input class="form-control" placeholder="Age" asp-for="Age">
+    <span asp-validation-for="Age" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Email"></label>
+    <input class="form-control" placeholder="Email" asp-for="Email">
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="DepartmentId"></label>
+    <select asp-for="DepartmentId" asp-items="depts" class="form-control">
+        <option>--Depatrment--</option>
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Password"></label>
+    <input class="form-control" placeholder="Password" asp-for="Password">
+    <span asp-validation-for="Password" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ConfirmPassword"></label>
+    <input class="form-control" placeholder="Confirm Your Password" asp-for="ConfirmPassword">
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+</div>

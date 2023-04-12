@@ -1,0 +1,14 @@
+﻿@model Student
+
+<div class="card">
+    <h5 class="card-header">Department Details</h5>
+    <div class="card-body">
+        <h6 class="card-title">Student Name: @Model.Name</h6>
+        <h6 class="card-title">Student ID: @Model.Id</h6>
+        <h6 class="card-title">Student Age: @Model.Age</h6>
+        <h6 class="card-title">Student Email: @Model.Email</h6>
+        <h6 class="card-title">Student Department: @Model.Department.Name</h6>
+
+        <a href="/Student/Index" class="btn btn-danger">Back</a>
+    </div>
+</div>

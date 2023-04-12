@@ -1,0 +1,18 @@
+﻿@model Student
+
+
+
+<form method="post">
+    <div class="form-group">
+        <label for="id">Student ID</label>
+        <input type="number" class="form-control" id="id" disabled placeholder="Student ID" asp-for="Id">
+    </div>
+    <partial name="CreateUpdate" />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
+    </script>
+}

@@ -1,0 +1,19 @@
+﻿@model Department
+
+
+
+<form method="post">
+    <div class="form-group">
+        <label for="id">Department ID</label>
+        <input type="number" class="form-control" id="id" disabled  asp-for="Id">
+    </div>
+    <partial name="CreateUpdate" />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
+    </script>
+}
