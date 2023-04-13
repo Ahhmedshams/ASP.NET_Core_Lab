@@ -1,6 +1,7 @@
 ﻿using Student_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Student_Management_System.Service;
 
 namespace Student_Management_System.Controllers
 {

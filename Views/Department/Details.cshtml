@@ -6,7 +6,32 @@
         <h6 class="card-title">Department Name: @Model.Name</h6>
         <h6 class="card-title">Department ID: @Model.Id</h6>
         <h6 class="card-title">Department Capacity: @Model.Capacity</h6>
+        <table class="table  table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Grade</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (Course item in Model.courses)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                            <a asp-action="StudentGrade" asp-route-crsId="@item.Id" asp-route-deptId="@Model.Id" type="button" class="btn btn-warning">Edit Grade</a>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+            </table>
 
         <a href="/department/Index" class="btn btn-danger">Back</a>
     </div>
+
+
+
 </div>

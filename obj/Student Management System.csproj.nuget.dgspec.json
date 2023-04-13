@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Lab04\\Student Management System.csproj": {}
+    "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\Student Management System.csproj": {}
   },
   "projects": {
-    "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Lab04\\Student Management System.csproj": {
+    "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\Student Management System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Lab04\\Student Management System.csproj",
+        "projectUniqueName": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\Student Management System.csproj",
         "projectName": "Student Management System",
-        "projectPath": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Lab04\\Student Management System.csproj",
+        "projectPath": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\Student Management System.csproj",
         "packagesPath": "C:\\Users\\ahmed\\.nuget\\packages\\",
-        "outputPath": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Lab04\\obj\\",
+        "outputPath": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -57,6 +57,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.13, )"
             }
           },
           "imports": [

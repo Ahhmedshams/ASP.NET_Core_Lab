@@ -18,6 +18,8 @@
                 <td>@item.Name</td>
                 <td>@item.Capacity</td>
                 <td>
+                    <a asp-action="Courses" asp-route-id="@item.Id" type="button" class="btn btn-info">Add Course</a>
+                |
                     <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-info">Details</a>
                 |
                     <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning">Edit</a>
