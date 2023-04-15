@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Student_Management_System.Models;
+using Student_Management_System.Service.interfaces;
 
 namespace Student_Management_System.Service
 {
-    public class CoursesDb
+    public class CoursesRepository : ICourseRepository
     {
-        Context context = new Context();
+        Context context ;
 
+        public CoursesRepository(Context _context)
+        {
+            context = _context;
+        }
         public async Task< List<Course> >GetAll()
         {
             return context.Courses != null ?
@@ -17,7 +22,7 @@ namespace Student_Management_System.Service
             return await context.Courses.FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public async Task Add(Course course)
+        public async Task Create(Course course)
         {
             try
             {
@@ -40,24 +45,23 @@ namespace Student_Management_System.Service
             }
         }
 
-        public void Update(Course Course)
+        public async Task Update(Course Course)
         {
-            Course old = context.Courses.FirstOrDefault(d => d.Id == Course.Id);
+            Course old = await context.Courses.FirstOrDefaultAsync(d => d.Id == Course.Id);
             if (old != null)
             {
                 old.Name = Course.Name;
                 old.Description = Course.Description;
                 old.Lect_Hours = Course.Lect_Hours;
                 old.Lab_Hours  = Course.Lab_Hours;
-                context.SaveChanges();
-
+                await context.SaveChangesAsync();
             }
         }
 
         public async Task<List<Course>> AllNotMatchWith(IEnumerable<Course> courses)
         {
             var allCourses = await context.Courses.ToListAsync();
-            var notMatchingCourses = allCourses.Except(courses);
+            var notMatchingCourses = allCourses.Except(courses, new CourseComparer() );
             return notMatchingCourses.ToList();
         }
 

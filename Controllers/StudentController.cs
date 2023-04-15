@@ -7,72 +7,78 @@ namespace Student_Management_System.Controllers
 {
     public class StudentController : Controller
     {
-        StudentDb DataSet = new StudentDb();
-        DepartmentDb DepartmentDataSet = new DepartmentDb();
-        public IActionResult Index()
+        IStudentRepository StdDb;
+        IDepartmentRepository DeptRepo ;
+
+       public StudentController(IStudentRepository _StdDb , IDepartmentRepository _DeptRepo)
         {
-            List<Student> studs = DataSet.GetAll();
+            StdDb = _StdDb;
+            DeptRepo = _DeptRepo;
+        }
+        public async Task<IActionResult> Index()
+        {
+            List<Student> studs = await StdDb.GetAll();
             return View(studs);
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
                 return NotFound();
-            Student stud = DataSet.GetByID((int)id);
+            Student stud = await StdDb.GetByID((int)id);
             return View(stud);
         }
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            Student stud = DataSet.GetByID((int)id);
+            Student stud = await StdDb.GetByID((int)id);
             if (stud == null)
                 return NotFound();
 
-             DataSet.Delete(stud.Id);
+            await StdDb.Delete(stud.Id);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Depts = DepartmentDataSet.GetAll();
+            ViewBag.Depts = await DeptRepo.GetAll();
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Student stud)
+        public async Task<IActionResult> Create(Student stud)
         {
             ModelState.Remove("Department");
-            ViewBag.Depts = DepartmentDataSet.GetAll();
+            ViewBag.Depts = DeptRepo.GetAll();
             if (ModelState.IsValid)
             {
 
-                DataSet.Add(stud);
+                await StdDb.Create(stud);
                 return RedirectToAction("Index");
             }else
                 return View(stud);
            
         }
 
-        public IActionResult Edit(int? id)
+        public  async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return NotFound();
-            Student stud = DataSet.GetByID((int)id);
+            Student stud = await StdDb.GetByID((int)id);
             if (stud == null)
                 return NotFound();
             //send Data
-            ViewBag.Depts = DepartmentDataSet.GetAll();
+            ViewBag.Depts = await DeptRepo.GetAll();
             return View(stud);
         }
         [HttpPost, ActionName("Edit")]
-        public IActionResult EditStudent(Student stud)
+        public async Task<IActionResult> EditStudent(Student stud)
         {
-            ViewBag.Depts = DepartmentDataSet.GetAll();
+            ViewBag.Depts = await DeptRepo.GetAll();
             if (ModelState.IsValid)
             {
-                DataSet.Update(stud);
+                StdDb.Update(stud);
                 return RedirectToAction("Index");
             }
             else

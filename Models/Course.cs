@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Student_Management_System.Models
 {
-    public class Course
+    public  class Course
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -13,17 +13,18 @@ namespace Student_Management_System.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly CoursesDb DataSet = new CoursesDb();
+        private ICourseRepository CourseRepo;
 
-        //public CoursesController(CoursesDb _DataSet)
-        //{
-        //    DataSet = _DataSet;
-        //}
+
+        public CoursesController(ICourseRepository _CourseRepo)
+        {
+            CourseRepo = _CourseRepo;
+        }
 
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View( await DataSet.GetAll());
+            return View( await CourseRepo.GetAll());
         }
 
         // GET: Courses/Details/5
@@ -32,7 +33,7 @@ namespace Student_Management_System.Controllers
             if (id == null )
                   return NotFound();
             
-            Course Crs =  await DataSet.GetByID((int) id );
+            Course Crs =  await CourseRepo.GetByID((int) id );
 
             if (Crs == null)
             {
@@ -57,7 +58,7 @@ namespace Student_Management_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                DataSet.Add(course);
+                CourseRepo.Create(course);
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -69,7 +70,7 @@ namespace Student_Management_System.Controllers
             if (id == null)
                 return NotFound();
 
-            Course Crs = await DataSet.GetByID((int)id);
+            Course Crs = await CourseRepo.GetByID((int)id);
 
             if (Crs == null)
             {
@@ -92,13 +93,13 @@ namespace Student_Management_System.Controllers
 
             if (ModelState.IsValid)
             {
-                Course Crs = await DataSet.GetByID((int)id);
+                Course Crs = await CourseRepo.GetByID((int)id);
 
                 if (Crs == null)
                 {
                     return NotFound();
                 }
-                DataSet.Update(course);
+                CourseRepo.Update(course);
                 
                 return RedirectToAction(nameof(Index));
             }
@@ -112,7 +113,7 @@ namespace Student_Management_System.Controllers
             {
                 return NotFound();
             }
-             Course Crs = await DataSet.GetByID((int)id);
+             Course Crs = await CourseRepo.GetByID((int)id);
 
              if (Crs == null)
               {
@@ -130,7 +131,7 @@ namespace Student_Management_System.Controllers
         {
             try
             {
-                DataSet.Delete(id);
+                CourseRepo.Delete(id);
                 return RedirectToAction("index");
             }
             catch (Exception ex)

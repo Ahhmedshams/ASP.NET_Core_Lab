@@ -1,74 +1,88 @@
 ﻿using Student_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using Student_Management_System.Service;
+using System.Linq;
+using Student_Management_System.Service;
+using Student_Management_System.Service.interfaces;
 
 namespace Student_Management_System.Controllers
 {
     public class DepartmentController : Controller
     {
-        DepartmentDb DataSet = new DepartmentDb();
-        CoursesDb CourseDataSet = new CoursesDb();
-        StudentCoursesDb StudentCoursesDb = new StudentCoursesDb();
+        IDepartmentRepository DeptRepo ;
+        ICourseRepository CourseRepo ;
+        IStudentCoursesRepository StudentCoursesRepo ;
 
-        public IActionResult Index()
+        public DepartmentController(IDepartmentRepository _deptRepo, ICourseRepository _CourseRepo,
+                                                     IStudentCoursesRepository _StudentCoursesRepo)
         {
-            List<Department> depts = DataSet.GetAll();
+            DeptRepo = _deptRepo;
+            CourseRepo = _CourseRepo;
+            StudentCoursesRepo = _StudentCoursesRepo;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            List<Department> depts = await DeptRepo.GetAll();
             return View(depts);
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
                 return NotFound();
-            Department dept = DataSet.GetByID((int)id);
+            Department dept = await DeptRepo.GetByID((int)id);
             return View(dept);
         }
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            Department dept = DataSet.GetByID((int)id);
+            Department dept = await DeptRepo.GetByID((int)id);
             if (dept == null)
                 return NotFound();
 
-            DataSet.Delete(dept.Id);
+          await  DeptRepo.Delete(dept.Id);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
+
+
         [HttpPost]
-        public IActionResult Create(Department dept)
+        public async Task<IActionResult> Create(Department dept)
         {
             if (ModelState.IsValid)
             {
-                DataSet.Add(dept);
-                return RedirectToAction("Index");
+               await DeptRepo.Create(dept);
+                return  RedirectToAction("Index");
 
             } else
                 return View(dept);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return NotFound();
-            Department dept = DataSet.GetByID((int)id);
+            Department dept = await DeptRepo.GetByID((int)id);
             if (dept == null)
                 return NotFound();
 
             return View(dept);
         }
         [HttpPost, ActionName("Edit")]
-        public IActionResult EditDepartment(Department dept)
+        public async Task<IActionResult> EditDepartment(Department dept)
         {
             if (ModelState.IsValid)
             {
 
-                DataSet.Update(dept);
+               await DeptRepo.Update(dept);
                 return RedirectToAction("Index");
 
             } else
@@ -77,8 +91,8 @@ namespace Student_Management_System.Controllers
         [HttpGet]
         public async Task<IActionResult> Courses(int id)
         {
-            var Dept = await DataSet.GetDeptWithCourses(id);
-            var Courses = await CourseDataSet.AllNotMatchWith(Dept.courses);
+            var Dept = await DeptRepo.GetDeptWithCourses(id);
+            var Courses = await CourseRepo.AllNotMatchWith(Dept.courses);
             ViewBag.NewCourses = Courses;
             return View(Dept);
         }
@@ -89,50 +103,66 @@ namespace Student_Management_System.Controllers
         {
 
 
-            var Dept = await DataSet.GetDeptWithCourses(Id);
+            var Dept = await DeptRepo.GetDeptWithCourses(Id);
             int count = Dept.courses.Count();
             if (CoursesToRemove != null)
             {
+
                 foreach (var item in CoursesToRemove)
                 {
-                    var crs = await CourseDataSet.GetByID((int)item);
+                    var crs = await CourseRepo.GetByID((int)item);
                     bool res = Dept.courses.Remove(crs);
+
                 }
+                await DeptRepo.SaveChanges();
+
             }
 
 
             foreach (var item in CoursesToAdd)
             {
-                var crs = await CourseDataSet.GetByID(item);
+                var crs = await CourseRepo.GetByID(item);
                 Dept.courses.Add(crs);
 
             }
-            await DataSet.SaveDepartmentChanges();
+            await DeptRepo.SaveChanges();
             return RedirectToAction(nameof(Courses), new { id = Id });
         }
-        public async Task<IActionResult> StudentGrade(int crsId, int deptId)
+
+
+
+        public async Task<IActionResult> UpdateStudentDegree(int crsId, int deptId)
         {
-            Department department= await DataSet.GetDeptWithStudent(deptId);
-            ViewBag.Course = await CourseDataSet.GetByID(crsId);
+            Department department= await DeptRepo.GetDeptWithStudent(deptId);
+            ViewBag.Course = await CourseRepo.GetByID(crsId);
 
 
             return View(department);
         }
 
         [HttpPost]
-        public async Task<IActionResult> StudentGrade(int crsId, int deptId, Dictionary<int, int > std)
+        public async Task<IActionResult> UpdateStudentDegree(int crsId, int deptId, Dictionary<int, int > std)
         {
             
             foreach (var item in std)
             {
-                var stdCrs = new StudentCourses () {  CourseId = crsId , StudentId = item.Key ,Degree = item.Value};
-                await StudentCoursesDb.Add(stdCrs);
+                var stud = await  StudentCoursesRepo.check(item.Key, crsId);
+                if (stud == null)
+                {
+                    var stdCrs = new StudentCourses () {  CourseId = crsId , StudentId = item.Key ,Degree = item.Value};
+                    await StudentCoursesRepo.Create(stdCrs);
+
+                }
+                else
+                {
+                   await StudentCoursesRepo.UpdateDegree(item.Key, crsId, item.Value);
+                }
             }
-            Department department = await DataSet.GetDeptWithStudent(deptId);
-            ViewBag.Course = await CourseDataSet.GetByID(crsId);
+            Department department = await DeptRepo.GetDeptWithStudent(deptId);
+            ViewBag.Course = await CourseRepo.GetByID(crsId);
 
 
-            return RedirectToAction(nameof(StudentGrade), department);
+            return RedirectToAction(nameof(Index), department);
         }
     }
 }
