@@ -23,7 +23,7 @@ namespace Student_Management_System.Service
         public async Task Create(Student std)
         {
             context.Students.Add(std);
-            await context.SaveChangesAsync();
+           await  context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
@@ -46,7 +46,7 @@ namespace Student_Management_System.Service
                 old.Age= std.Age;
                 old.Password =std.Password;
                 old.DepartmentId = std.DepartmentId;
-                context.SaveChangesAsync();
+               await context.SaveChangesAsync();
             }
         }
     }

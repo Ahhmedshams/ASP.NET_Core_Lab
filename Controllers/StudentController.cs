@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Student_Management_System.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Student_Management_System.Controllers
 {
@@ -20,7 +21,7 @@ namespace Student_Management_System.Controllers
             List<Student> studs = await StdDb.GetAll();
             return View(studs);
         }
-
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,16 +29,23 @@ namespace Student_Management_System.Controllers
             Student stud = await StdDb.GetByID((int)id);
             return View(stud);
         }
-        public async Task<IActionResult> Delete(int? id)
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    //Gard If
+        //    if (id == null)
+        //        return NotFound();
+
+        //    Student stud = await StdDb.GetByID((int)id);
+        //    if (stud == null)
+        //        return NotFound();
+
+        //    return PartialView("_DeleteStudentPartialView", stud);
+        //}
+        //[HttpPost]
+        public async Task<IActionResult> Delete(Student std)
         {
-            if (id == null)
-                return NotFound();
-
-            Student stud = await StdDb.GetByID((int)id);
-            if (stud == null)
-                return NotFound();
-
-            await StdDb.Delete(stud.Id);
+            await StdDb.Delete(std.Id);
             return RedirectToAction("Index");
         }
 
@@ -50,7 +58,7 @@ namespace Student_Management_System.Controllers
         public async Task<IActionResult> Create(Student stud)
         {
             ModelState.Remove("Department");
-            ViewBag.Depts = DeptRepo.GetAll();
+            ViewBag.Depts = await DeptRepo.GetAll();
             if (ModelState.IsValid)
             {
 

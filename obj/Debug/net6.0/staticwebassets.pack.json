@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\wwwroot\\js\\delete.js",
+      "PackagePath": "staticwebassets\\js\\delete.js"
+    },
+    {
       "Id": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

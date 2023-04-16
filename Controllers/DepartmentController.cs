@@ -1,8 +1,6 @@
 ﻿using Student_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using Student_Management_System.Service;
-using System.Linq;
-using Student_Management_System.Service;
 using Student_Management_System.Service.interfaces;
 
 namespace Student_Management_System.Controllers

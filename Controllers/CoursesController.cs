@@ -99,7 +99,7 @@ namespace Student_Management_System.Controllers
                 {
                     return NotFound();
                 }
-                CourseRepo.Update(course);
+               await CourseRepo.Update(course);
                 
                 return RedirectToAction(nameof(Index));
             }

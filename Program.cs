@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Student_Management_System.Models;
@@ -14,8 +15,14 @@ namespace Student_Management_System
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            //built in servers
+            //Enable any Class To inject IdentityUser And IdentityRole
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
 
+ 
+
+            //.GetConnectionString
 
             //register custom service DI
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -24,8 +31,12 @@ namespace Student_Management_System
             builder.Services.AddScoped<ICourseRepository, CoursesRepository>();
             builder.Services.AddDbContext<Context>(options =>
             {
-                options.UseSqlServer("Data Source=.;Initial Catalog=ASPLAB;Integrated Security=True;TrustServerCertificate=True;");
+                //options.UseSqlServer("Data Source=.;Initial Catalog=ASPLAB;Integrated Security=True;TrustServerCertificate=True;");
+               options.UseSqlServer(builder.Configuration.GetConnectionString("Connextion1"));
+
             });
+
+            
 
 
 
@@ -39,6 +50,8 @@ namespace Student_Management_System
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

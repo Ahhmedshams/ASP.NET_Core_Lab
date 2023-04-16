@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rR/ww/0ssMDk/MkkhYn7m/wKWF+Q/r7R4MIUEs+wBxw=",
+  "Hash": "hN/QMq+So+3tQNTS3JHkOL70FQjjoik/SaA1dO43gMQ=",
   "Source": "Student Management System",
   "BasePath": "_content/Student Management System",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\wwwroot\\js\\delete.js",
+      "SourceId": "Student Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\wwwroot\\",
+      "BasePath": "_content/Student Management System",
+      "RelativePath": "js/delete.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\delete.js"
     },
     {
       "Identity": "E:\\ITI\\Intake43\\ASP.NET MVC\\Lab\\Main\\wwwroot\\js\\site.js",

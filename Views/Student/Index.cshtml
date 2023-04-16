@@ -22,11 +22,16 @@
                 <td>@item.Email</td>
                 <td>@item.Department.Name</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" type="button"  class="btn btn-info">Details</a>
                     |
                     <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning">Edit</a>
                     |
-                    <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">Delete</a>
+                    <button class="btn btn-danger"
+                        asp-action="delete" asp-route-id="@item.Id"
+                          
+                    >
+                        Delete</button>
+
                 </td>
 
             </tr>
@@ -36,3 +41,13 @@
 </table>
 
 
+
+@*@section Scripts{
+@{
+    await Html.RenderPartialAsync("_DeleteStudentPartialView");
+      data-id="@item.Id"
+                            data-controller="Student"
+                            data-action="delete"
+                            data-body-message="Are You Sure You want To delete @item.Name"
+}
+}*@
