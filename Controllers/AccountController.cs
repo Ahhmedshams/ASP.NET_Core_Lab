@@ -113,5 +113,51 @@ namespace Student_Management_System.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction(nameof(Index), "Home");
         }
+
+
+
+
+        public IActionResult AddAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAdmin(RegistrationViewModel NewAccount)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                //Map from View Model to Model
+                IdentityUser user = new IdentityUser();
+                user.UserName = NewAccount.UserName;
+                user.Email = NewAccount.Email;
+
+                //How to Save user And creata Cookie
+
+
+                IdentityResult result = await userManager.CreateAsync(user, NewAccount.Password);
+
+                if (result.Succeeded)//Created Successfyly
+                {
+                    //create cookie 
+                    //Sign in With User
+                    //Add role 
+                    await userManager.AddToRoleAsync(user, "admin");
+                    await signInManager.SignInAsync(user, isPersistent: false); // Is persistent life time = 20 day ==> false cookie per section 
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    //Reade Creation Result Error 
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+
+            }
+            return View(NewAccount);
+        }
     }
 }

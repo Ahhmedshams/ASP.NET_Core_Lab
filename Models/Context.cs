@@ -50,5 +50,15 @@ namespace Student_Management_System.Models
 
 
         public DbSet<Student_Management_System.Models.ViewModel.LoginViewModel>? LoginViewModel { get; set; }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ASPLAB;Integrated Security=True;TrustServerCertificate=True;");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
+
+
+        public DbSet<Student_Management_System.Models.ViewModel.RoleViewModel>? RoleViewModel { get; set; }
     }
 }

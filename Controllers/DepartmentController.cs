@@ -46,7 +46,7 @@ namespace Student_Management_System.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }

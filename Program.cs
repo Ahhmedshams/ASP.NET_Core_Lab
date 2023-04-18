@@ -56,8 +56,16 @@ namespace Student_Management_System
             app.UseAuthorization();
 
             app.MapControllerRoute(
+                name: "defaultOne",
+                pattern:"Department",
+                defaults:new {controller= "Department" , action="Index" } //coustom route map wit asp-route="defaultOne" 
+                //insted of write asp-controller= asp-action 
+                );
+
+            app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"); 
+
 
             app.Run();
         }

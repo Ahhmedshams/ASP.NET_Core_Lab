@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" >
+        <form asp-action="AddAdmin" method="post">
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -39,10 +39,12 @@
     </div>
 </div>
 
-<div> 
-    <a asp-action="Login" asp-controller="Account" class="btn btn-check" >  Login</a>
+<div>
+    <a asp-action="Login" asp-controller="Account" class="btn btn-check">  Login</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
