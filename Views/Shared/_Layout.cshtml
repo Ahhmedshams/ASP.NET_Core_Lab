@@ -31,22 +31,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Student</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated == false)
+                       
+
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated == true)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-route-Name="@User.Identity.Name" asp-action="Details">@User.Identity.Name</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registration">Registeratiom</a>
+                                <a onclick='return confirm("You sure you want to logout?")' class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Logout</a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">LogOUt</a>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registration">Register</a>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>

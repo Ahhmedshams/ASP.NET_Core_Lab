@@ -55,12 +55,13 @@ namespace Student_Management_System.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Student stud)
+        public async Task<IActionResult> Create(Student stud,IFormFile? stdFile)
         {
             ModelState.Remove("Department");
             ViewBag.Depts = await DeptRepo.GetAll();
             if (ModelState.IsValid)
             {
+                if(stdFile != null)
 
                 await StdDb.Create(stud);
                 return RedirectToAction("Index");

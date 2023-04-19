@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.VisualBasic;
 using Student_Management_System.Models.ViewModel;
+using System.Security.Claims;
 
 namespace Student_Management_System.Controllers
 {
@@ -23,7 +24,7 @@ namespace Student_Management_System.Controllers
             return View();
         }
         [HttpPost]
-        public async Task< IActionResult> Registration(RegistrationViewModel NewAccount) 
+        public async Task< IActionResult> Registration(RegistrationViewModel NewAccount, IFormFile imagepath) 
         {
             //not need property Problem with model satate 
             //Coustomize IdentityUser ==> create view model the ==> Maping to this view modal 
@@ -41,6 +42,14 @@ namespace Student_Management_System.Controllers
 
                 if(result.Succeeded)//Created Successfyly
                 {
+
+                    if (imagepath != null)
+                    {
+                        await imagepath.CopyToAsync(new FileStream(@"./wwwroot/images/" + user.UserName + "." + imagepath.FileName.Split(".").Last(), FileMode.Create));
+                        await userManager.AddClaimAsync(user, new Claim("image", user.UserName + "." + imagepath.FileName.Split(".").Last()));
+                    }
+                    else
+                        await userManager.AddClaimAsync(user, new Claim("image", "default.gif"));
                     //create cookie 
                     //Sign in With User
                     await signInManager.SignInAsync(user, isPersistent: false); // Is persistent life time = 20 day ==> false cookie per section 
@@ -159,5 +168,16 @@ namespace Student_Management_System.Controllers
             }
             return View(NewAccount);
         }
+
+        public async Task<IActionResult> Details(string Name)
+        {
+            IdentityUser user = await userManager.FindByNameAsync(Name);
+            var Claims = await userManager.GetClaimsAsync(user);
+            Claim imageClaim = Claims.FirstOrDefault(c => c.Type == "image");
+            ViewBag.image = imageClaim.Value;
+            return View(user);
+        }
+        public IActionResult GetImage(string image) =>
+            File("images/" + image, "image/" + image.Split(".").Last());
     }
 }
